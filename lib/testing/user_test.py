@@ -1,15 +1,35 @@
-#!/usr/bin/env python3
+# lib/testing/user_test.py
+import unittest
+from lib.user import User
+from lib.teacher import Teacher
+from lib.student import Student
 
-from user import User
+class TestUser(unittest.TestCase):
+    def test_user_initialization(self):
+        user = User("Jane", "Doe")
+        self.assertEqual(user.first_name, "Jane")
+        self.assertEqual(user.last_name, "Doe")
 
-class TestUser:
-    '''Class "User" in user.py'''
+class TestTeacher(unittest.TestCase):
+    def test_teacher_inherits_user(self):
+        teacher = Teacher("John", "Doe")
+        self.assertEqual(teacher.first_name, "John")
+        self.assertEqual(teacher.last_name, "Doe")
 
-    def test_is_class(self):
-        '''is a class.'''
-        assert(object in User.__bases__)
+    def test_teacher_knowledge(self):
+        teacher = Teacher("John", "Doe")
+        self.assertIn(teacher.teach(), teacher.knowledge)
 
-    def test_initializes_with_names(self):
-        '''initializes with first and last name.'''
-        my_user = User("My", "User")
-        assert((my_user.first_name, my_user.last_name) == ("My", "User"))
+class TestStudent(unittest.TestCase):
+    def test_student_inherits_user(self):
+        student = Student("Jane", "Doe")
+        self.assertEqual(student.first_name, "Jane")
+        self.assertEqual(student.last_name, "Doe")
+
+    def test_student_learn(self):
+        student = Student("Jane", "Doe")
+        student.learn("Python OOP")
+        self.assertIn("Python OOP", student.knowledge)
+
+if __name__ == '__main__':
+    unittest.main()
